@@ -1,0 +1,51 @@
+<div class="card">
+    <div class="card-header" style="background-color:green;">User Registration   </div>
+    <div class="card-body">
+        <form class="row g-3">
+        <div class="col-md-6">
+              <label for="inputEmail4" >Name</label>
+              <input type="text" class="form-control" [(ngModel)]="userObj.userName" placeholder="enter name" name="userName">  
+         </div>
+         <div class="col-md-6">
+          <label for="inputEmail4" >City</label>
+          <input type="text" class="form-control" [(ngModel)]="userObj.userCity" placeholder="enter City" name="userCity">  
+        </div>
+        <div class="col-md-6">
+          <label for="inputEmail4" >State</label>
+          <select class="form-control"  [(ngModel)]="userObj.userState" name="userState" >
+           <option selected>select state</option>
+            <option value="Maharastra">Maharastra</option>
+            <option value="delhi">delhi</option>
+            <option value="goa">goa</option>
+        </select>
+        </div>
+        <div class="col-md-6">
+          <label for="inputEmail4" >Mobile</label>
+          <input type="text" class="form-control" [(ngModel)]="userObj.userMobile" placeholder="enter Mobile " name="userMobile">  
+        </div>
+        <div class="col-md-6">
+          <label for="inputEmail4" >alt Mobile</label>
+          <input type="text" class="form-control" [(ngModel)]="userObj.userAltMobile" placeholder="enter alt Mobile " name="userAltMobile">  
+        </div>
+
+            <!-- <div class="col-md-2">
+              <label for="inputZip" class="form-label">Zip</label>
+              <input type="text" class="form-control" id="inputZip">
+            </div>
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                  Check me out
+                </label>
+              </div>
+            </div> -->
+            <div class="col-12">
+              <button type="submit" (click)="saveUser()" class="btn btn-primary">Save user</button>
+            </div>
+          </form>
+
+    </div>
+
+  </div>
+

@@ -1,0 +1,450 @@
+basic crud 
+1) Routing in nagulaer for top nav
+a) add in app.module.ts
+basic route
+
+  imports: [
+    BrowserModule,
+    AppRoutingModule
+  ],
+
+  import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { UserListComponent } from './userApp/user-list/user-list.component';
+import { UserRegisterComponent } from './userApp/user-register/user-register.component';
+import { UserUpdateComponent } from './userApp/user-update/user-update.component';
+
+
+b) add this link in navigation in app-co.html 
+
+<ul class="nav">
+  <li class="nav-item">
+    <a class="nav-link "  routerLink="/userList">User List</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLink="/addUser">Add User</a>
+  </li>
+
+
+</ul>
+
+<div class="container">
+<router-outlet></router-outlet>
+</div>
+
+c) add in app-routing-module.ts
+
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { UserListComponent } from './userApp/user-list/user-list.component';
+import { UserRegisterComponent } from './userApp/user-register/user-register.component';
+import { UserUpdateComponent } from './userApp/user-update/user-update.component';
+const routes: Routes = [
+  {
+    path:'userList',
+    component: UserListComponent
+  },
+  
+  {
+    path:'addUser',
+    component:UserRegisterComponent
+  },
+  
+  {
+    path:'updateUser',
+    component:UserUpdateComponent
+  },
+
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+
+2) interfaces in angular 
+export class userObj {
+  userId?: number;
+  userName?: string;
+  userCity?: string;
+  userState?: string;
+  userMobile?: string;
+  userAltMobile?: string;
+}
+
+add user.ts in interfaces folser 
+
+3) this class and its datatype binds in user-list-co.ts file like
+import { userObj } from 'src/app/interfaces/user';
+
+  userList: userObj [];
+  constructor() {
+    this.userList = [];
+   }
+
+
+   4) now ui of userlistco.html
+   <div class="card">
+    <div class="card-header">User List>
+    <div class="card-body">
+        <table class="table table-bordered table-sm">
+            <thead>
+              <tr>
+                <th>Sr No</th>
+                <th>Name</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Mobile</th>
+                <th>Alt Mobile</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of userList; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{user.userName}}</td>
+                <td>{{user.userCity}}</td>
+                <td>{{user.userState}}</td>
+                <td>{{user.userMobile}}</td>
+                <td>{{user.userAltMobile}}</td>
+                <td>
+                    <button class="btn btn-sm btn-success">Edit</button>
+                    <button class="btn btn-sm btn-danger">Delete</button>
+                </td>
+              </tr>
+    
+            </tbody>
+          </table>
+
+    </div>
+  </div>
+
+
+  5) now add form in user-register.html 
+
+add formsmodule in app.module.ts for ng-model use in form 
+  imports: [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule
+  ],
+
+  import { FormsModule } from '@angular/forms';
+
+// add this in user-re-co.ts 
+
+import { userObj } from 'src/app/interfaces/user';
+
+export class UserRegisterComponent implements OnInit {
+  userObj : userObj; 
+  constructor() { 
+    this.userObj = new userObj();
+  }
+
+
+// for add new user 
+  <div class="card">
+    <div class="card-header" style="background-color:green;">User Registration   </div>
+    <div class="card-body">
+        <form class="row g-3">
+        <div class="col-md-6">
+              <label for="inputEmail4" >Name</label>
+              <input type="text" class="form-control" [(ngModel)]="userObj.userName" placeholder="enter name" name="userName">  
+         </div>
+         <div class="col-md-6">
+          <label for="inputEmail4" >City</label>
+          <input type="text" class="form-control" [(ngModel)]="userObj.userCity" placeholder="enter City" name="userCity">  
+        </div>
+        <div class="col-md-6">
+          <label for="inputEmail4" >State</label>
+          <select class="form-control"  [(ngModel)]="userObj.userState" name="userState" >
+           <option selected>select state</option>
+            <option value="Maharastra">Maharastra</option>
+            <option value="delhi">delhi</option>
+            <option value="goa">goa</option>
+        </select>
+        </div>
+        <div class="col-md-6">
+          <label for="inputEmail4" >Mobile</label>
+          <input type="text" class="form-control" [(ngModel)]="userObj.userMobile" placeholder="enter Mobile " name="userMobile">  
+        </div>
+        <div class="col-md-6">
+          <label for="inputEmail4" >alt Mobile</label>
+          <input type="text" class="form-control" [(ngModel)]="userObj.userAltMobile" placeholder="enter alt Mobile " name="userAltMobile">  
+        </div>
+
+            <!-- <div class="col-md-2">
+              <label for="inputZip" class="form-label">Zip</label>
+              <input type="text" class="form-control" id="inputZip">
+            </div>
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                  Check me out
+                </label>
+              </div>
+            </div> -->
+            <div class="col-12">
+                 <button type="submit" (click)="saveUser()" class="btn btn-primary">Save user</button>
+            </div>
+          </form>
+
+    </div>
+
+  </div>
+
+6) add user
+// make saveUser fun in user-regi.ts file 
+  // generate auto increment index so 
+
+  localstorage always in string formate 
+  convert string into object format and if it is array thrn convert to array using parse method 
+  const userList = JSON.parse(oldRecords);
+
+// when data strore in localstorage so convert object into string using 
+ localStorage.setItem
+
+
+    // generate new userid 
+getNewUserId(){
+  const oldRecords = localStorage.getItem('userList');
+  if(oldRecords !== null){
+    // convert string into object using parse method
+    const userList = JSON.parse(oldRecords);
+    return userList.length + 1;
+  } else {
+    return 1;
+  }
+}
+
+// for saveUser
+saveUser(){
+  debugger;
+const latestId = this.getNewUserId();
+this.userObj.userId = latestId;
+const oldRecords = localStorage.getItem('userList');
+// if record exist alreay
+if(oldRecords !== null){
+  // convert string into object using parse method ,parse method has only key
+  const userList = JSON.parse(oldRecords);
+  // here when add new data from userobj so push in userlist array
+ userList.push(this.userObj);
+ // convert  object  into string   using stringify method ,stringify method has only key,value pair 
+ localStorage.setItem('userList', JSON.stringify(userList));
+} else {
+ // if record does not exist alreay
+ const userArr = [];
+ userArr.push(this.userObj);
+  // convert  object  into string   using stringify method ,stringify method has only key,value pair 
+  localStorage.setItem('userList', JSON.stringify(userArr));
+
+}
+  }
+
+
+  7) for get data 
+  add this in userlist-co.ts
+    ngOnInit(): void {
+    const records = localStorage.getItem('userList')
+    if(records !== null){
+      this.userList = JSON.parse(records);
+    }
+  }
+
+
+7) update user
+now on edit button add in userlist.html
+        // on userupdate-co    <button type="submit" (click)="updateUser()" class="btn btn-primary">update user</button>
+
+
+      // on edit buttom move to update user componeent UserListComponent
+        <button class="btn btn-sm btn-success" [routerLink]="['/updateUser', user.userId]">Edit</button>
+
+// in approuting-module.ts
+  {
+    path:'updateUser/:id',
+    component:UserUpdateComponent
+  },
+
+  // now go to user update component.html copy and paste user -register.html and ts copy of user-regi.ts 
+
+  // query param fatch from local storage 
+
+
+  export class UserUpdateComponent implements OnInit {
+
+  userObj : userObj; 
+  constructor(private route: ActivatedRoute) { 
+   
+    this.userObj = new userObj();
+    this.route.queryParams.subscribe((res)=>{
+      this.userObj.userId = res['id']
+    }) 
+  }
+
+  [routerLink]="['/updateUser', user.userId]"
+  here 1 st parameter is routerlink and 2nd one is object user.userid = id from quertparams get 
+
+
+  // now same data get while update record grom get data 
+  => this is lemda expression
+
+  export class UserUpdateComponent implements OnInit {
+
+  userObj : userObj; 
+  constructor(private route: ActivatedRoute) { 
+    // for get id wwhile edit data
+    this.userObj = new userObj();
+    this.route.params.subscribe((res)=>{
+      this.userObj.userId = res['id']
+    }) 
+  }
+
+  ngOnInit(): void {
+    const oldRecords = localStorage.getItem('userList');
+    if(oldRecords !== null){
+      const userList = JSON.parse(oldRecords);
+      const curretUser = userList.find((m : any) => m.userId == this.userObj.userId);
+      if(curretUser !== undefined){
+        // for get old record of partical 1 object 
+        this.userObj.userCity = curretUser.userCity;
+        this.userObj.userState = curretUser.userState;
+        this.userObj.userName = curretUser.userName;
+        this.userObj.userMobile = curretUser.userMobile;
+        this.userObj.userAltMobile = curretUser.userAltMobile;
+      }
+    }
+  }
+
+
+updateUser(){
+  console.log(this.userObj);
+const oldRecords = localStorage.getItem('userList');
+// if record exist alreay
+if(oldRecords !== null){
+  // convert string into object using parse method ,parse method has only key
+  const userList = JSON.parse(oldRecords);
+ // remove array from original array only 1 record then push new updated record push into array
+ userList.splice(userList.findIndex((a:any)=> a.userId == this.userObj.userId),1);
+  // here when add new data from userobj so push in userlist array
+ userList.push(this.userObj);
+ // convert  object  into string   using stringify method ,stringify method has only key,value pair 
+ localStorage.setItem('userList', JSON.stringify(userList));
+} 
+
+
+  }
+
+
+
+  9) for delete data
+
+  goto userlistco.html
+
+      <button class="btn btn-sm btn-danger" (click)="delete(user.userId)" style="margin-left: 20px;">Delete</button>
+
+      in userlist.ts
+      
+delete(id:any){
+  const oldRecords = localStorage.getItem('userList');
+  // if record exist alreay
+  if(oldRecords !== null){
+    // convert string into object using parse method ,parse method has only key
+    const userList = JSON.parse(oldRecords);
+   // remove array from original array only 1 record then push new updated record push into array
+   userList.splice(userList.findIndex((a:any)=> a.userId == id),1);
+
+   // convert  object  into string   using stringify method ,stringify method has only key,value pair 
+   localStorage.setItem('userList', JSON.stringify(userList));
+  } 
+
+  // after delete get will be call
+   const records = localStorage.getItem('userList');
+  if(records !== null){
+  this.userList = JSON.parse(records);
+}
+}
+
+10) now move from 1 page to another reroutre page
+a) for edit 
+goto userupdateco.ts
+
+we need router object so add in constructor
+private router : Router
+import { ActivatedRoute, Router } from '@angular/router';
+
+  constructor(private route: ActivatedRoute, private router : Router ) 
+
+   this.router.navigateByUrl('/userlist'); 
+
+   add this line in updateuser function 
+
+   updateUser(){
+ 
+const oldRecords = localStorage.getItem('userList');
+// if record exist alreay
+if(oldRecords !== null){
+  // convert string into object using parse method ,parse method has only key
+  const userList = JSON.parse(oldRecords);
+ // remove array from original array only 1 record then push new updated record push into array
+ userList.splice(userList.findIndex((a:any)=> a.userId == this.userObj.userId),1);
+  // here when add new data from userobj so push in userlist array
+ userList.push(this.userObj);
+ // convert  object  into string   using stringify method ,stringify method has only key,value pair 
+ localStorage.setItem('userList', JSON.stringify(userList));
+} 
+
+// for navigate to uswrlist component
+ this.router.navigateByUrl('/userlist');
+
+  }
+
+
+b) for add
+UserRegisterComponent
+ use user-regisetr-co.ts 
+add this in it 
+
+import { Router } from '@angular/router';
+
+  constructor(private router : Router ) { 
+    this.userObj = new userObj();
+  }
+
+
+  saveUser(){
+ 
+const latestId = this.getNewUserId();
+this.userObj.userId = latestId;
+const oldRecords = localStorage.getItem('userList');
+// if record exist alreay
+if(oldRecords !== null){
+  // convert string into object using parse method ,parse method has only key
+  const userList = JSON.parse(oldRecords);
+  // here when add new data from userobj so push in userlist array
+ userList.push(this.userObj);
+ // convert  object  into string   using stringify method ,stringify method has only key,value pair 
+ localStorage.setItem('userList', JSON.stringify(userList));
+} else {
+ // if record does not exist alreay
+ const userArr = [];
+ userArr.push(this.userObj);
+  // convert  object  into string   using stringify method ,stringify method has only key,value pair 
+  localStorage.setItem('userList', JSON.stringify(userArr));
+
+}
+
+// after save record move to get list
+   this.router.navigateByUrl('/userList');
+
+
+
+}
+
+
+
+
+  
